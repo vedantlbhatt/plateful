@@ -1,0 +1,44 @@
+{
+  "name": "plateful",
+  "version": "1.0.0",
+  "main": "expo-router/entry",
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "@react-native-community/datetimepicker": "9.2.1",
+    "@shopify/react-native-skia": "2.14.0",
+    "expo": "~58.0.19",
+    "expo-constants": "~58.0.13",
+    "expo-device": "~58.0.5",
+    "expo-haptics": "~58.0.7",
+    "expo-image-picker": "~58.0.10",
+    "expo-linking": "~58.0.14",
+    "expo-notifications": "~58.1.6",
+    "expo-router": "~58.0.26",
+    "expo-status-bar": "~58.0.4",
+    "expo-symbols": "~58.0.4",
+    "firebase": "^13.1.0",
+    "react": "19.3.0",
+    "react-dom": "^19.3.0",
+    "react-native": "0.88.0",
+    "react-native-gesture-handler": "~3.3.0",
+    "react-native-reanimated": "4.7.1",
+    "react-native-safe-area-context": "~5.10.1",
+    "react-native-screens": "~4.30.0",
+    "react-native-worklets": "0.13.0"
+  },
+  "devDependencies": {
+    "@types/react": "~19.3.0",
+    "typescript": "~6.0.3"
+  },
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "typecheck": "tsc --noEmit",
+    "functions:build": "npm --prefix functions run build",
+    "emulators": "firebase emulators:start --import=./emulator-data --export-on-exit",
+    "export": "node functions/scripts/export-csv.mjs"
+  },
+  "private": true
+}
