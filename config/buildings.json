@@ -1,0 +1,38 @@
+{
+  "_note": "Canonical building list + adjacency. Edit here only; functions copy it at build time (functions/package.json prebuild). Adjacency is symmetric: listing A->B is enough. Adjacency is approximate walking-neighbour data, verify before a real test.",
+  "buildings": [
+    { "id": "klaus", "name": "Klaus" },
+    { "id": "coc", "name": "College of Computing" },
+    { "id": "culc", "name": "CULC (Clough Commons)" },
+    { "id": "vanleer", "name": "Van Leer" },
+    { "id": "howey", "name": "Howey" },
+    { "id": "skiles", "name": "Skiles" },
+    { "id": "library", "name": "Library (Crosland/Price Gilbert)" },
+    { "id": "studentcenter", "name": "Student Center" },
+    { "id": "bungerhenry", "name": "Bunger-Henry" },
+    { "id": "mason", "name": "Mason" },
+    { "id": "est", "name": "ES&T" },
+    { "id": "marcus", "name": "Marcus Nanotechnology" },
+    { "id": "mose", "name": "MoSE" },
+    { "id": "ic", "name": "Instructional Center" },
+    { "id": "boggs", "name": "Boggs" },
+    { "id": "ebb", "name": "EBB" },
+    { "id": "tsrb", "name": "TSRB" },
+    { "id": "scheller", "name": "Scheller" },
+    { "id": "coda", "name": "CODA" }
+  ],
+  "adjacency": {
+    "klaus": ["coc", "est", "marcus"],
+    "coc": ["ic", "culc"],
+    "culc": ["skiles", "library", "howey"],
+    "vanleer": ["bungerhenry", "mason", "klaus"],
+    "howey": ["mason", "studentcenter"],
+    "skiles": ["library", "studentcenter"],
+    "bungerhenry": ["mason"],
+    "est": ["mose", "ebb"],
+    "mose": ["boggs", "marcus"],
+    "boggs": ["ebb"],
+    "tsrb": ["scheller", "coda"],
+    "scheller": ["coda"]
+  }
+}
