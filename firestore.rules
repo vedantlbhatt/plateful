@@ -1,0 +1,72 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isSelf(uid) { return signedIn() && request.auth.uid == uid; }
+    // Organizers: a verified @gatech.edu email/password account (never anonymous).
+    function isGtOrganizer() {
+      return signedIn()
+        && request.auth.token.firebase.sign_in_provider == 'password'
+        && request.auth.token.email_verified == true
+        && request.auth.token.email.lower().matches('.*@gatech[.]edu$');
+    }
+    function onlyKeys(keys) { return request.resource.data.diff(resource.data).affectedKeys().hasOnly(keys); }
+
+    match /users/{uid} {
+      allow read: if isSelf(uid);
+      allow create: if isSelf(uid)
+        && (request.resource.data.role == 'student'
+            || (request.resource.data.role == 'organizer' && isGtOrganizer()));
+      // Role is fixed at creation; switching role means a new account.
+      allow update: if isSelf(uid) && request.resource.data.role == resource.data.role;
+    }
+
+    match /posts/{postId} {
+      allow read: if signedIn();
+      allow create: if isGtOrganizer()
+        && request.resource.data.organizerId == request.auth.uid
+        && request.resource.data.status == 'active'
+        && request.resource.data.platesStart is int
+        && request.resource.data.platesStart > 0
+        && request.resource.data.platesLeft == request.resource.data.platesStart
+        && request.resource.data.activeClaims == 0
+        && request.resource.data.pickups == 0;
+      // Claim counters (activeClaims, pickups) are server-only, via the claim callables.
+      allow update: if isGtOrganizer()
+        && resource.data.organizerId == request.auth.uid
+        && onlyKeys(['platesLeft', 'status', 'closedAt', 'closeReason', 'photoUrl', 'organizerLeft',
+                     'organizerLeftAt', 'platesThrownOut', 'postTimeMs', 'updatedAt'])
+        && request.resource.data.platesLeft is int
+        && request.resource.data.platesLeft >= 0
+        && (request.resource.data.status == resource.data.status
+            || (resource.data.status == 'active' && request.resource.data.status == 'closed'
+                && request.resource.data.closeReason == 'food_gone'));
+    }
+
+    // Written only by Cloud Functions (claimPlate / resolveClaim).
+    match /claims/{claimId} {
+      allow read: if signedIn() && resource.data.studentId == request.auth.uid;
+    }
+
+    // Append-only action log. Server rows are written with the Admin SDK.
+    match /events/{eventId} {
+      allow create: if signedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.type is string
+        && request.resource.data.timestamp == request.time;
+    }
+
+    match /surveys/{surveyId} {
+      allow read: if signedIn() && resource.data.userId == request.auth.uid;
+      allow create: if signedIn() && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Organizer events with an end time, used for the end-of-event reminder.
+    match /eventSchedules/{id} {
+      allow read: if signedIn() && resource.data.organizerId == request.auth.uid;
+      allow create: if isGtOrganizer() && request.resource.data.organizerId == request.auth.uid
+        && request.resource.data.status in ['pending', 'local'];
+      allow update, delete: if isGtOrganizer() && resource.data.organizerId == request.auth.uid;
+    }
+  }
+}
