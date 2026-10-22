@@ -1,0 +1,8 @@
+{
+  "Simulator Target Bundle": "host.exp.Exponent",
+  "aps": {
+    "alert": { "title": "Free food nearby", "body": "Pizza, Klaus 1447, 10 plates left, Vegetarian" },
+    "sound": "default"
+  },
+  "body": { "type": "post_alert", "postId": "demo_post_pizza", "alertId": "demo_alert" }
+}

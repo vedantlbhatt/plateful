@@ -1,0 +1,8 @@
+{
+  "Simulator Target Bundle": "host.exp.Exponent",
+  "aps": {
+    "alert": { "title": "Event ending soon", "body": "Event ending soon. Any leftovers? Post in 30 sec." },
+    "sound": "default"
+  },
+  "body": { "type": "reminder", "scheduleId": "demo_event_reminder", "building": "klaus", "room": "1447" }
+}
