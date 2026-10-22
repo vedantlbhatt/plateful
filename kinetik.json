@@ -1,0 +1,25 @@
+{
+  "$schema": "https://kinetik-ui.dev/schema/kinetik.json",
+  "registry": "https://kinetik-ui.dev/r",
+  "componentsDir": "src/components/kinetik",
+  "libDir": "src/lib/kinetik",
+  "installed": {
+    "choice-cards": "1.0.0",
+    "empty-state": "1.0.0",
+    "filter-chips": "1.0.0",
+    "float-field": "1.0.0",
+    "kinetik-clock": "1.4.2",
+    "kinetik-count": "1.4.2",
+    "kinetik-haptics": "1.4.2",
+    "kinetik-motion": "1.4.2",
+    "kinetik-tokens": "1.4.2",
+    "odometer": "1.0.0",
+    "progress-bar": "1.0.0",
+    "roll-stepper": "1.0.0",
+    "segment-bar": "1.0.0",
+    "skeleton-sweep": "1.0.0",
+    "status-button": "1.0.0",
+    "toast-stack": "1.0.0",
+    "two-step-button": "1.0.0"
+  }
+}
